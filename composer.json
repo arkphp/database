@@ -1,0 +1,20 @@
+{
+    "name": "ark/database",
+    "description": "Light weight database abstraction",
+    "keywords": ["database", "mysql", "sqlite", "sqlite3", "postgresql"],
+    "homepage": "https://github.com/arkphp/database",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Liu Dong",
+            "email": "ddliuhb@gmail.com",
+            "homepage": "http://codecent.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ark\\Database\\": "src/"
+        }
+    }
+}
