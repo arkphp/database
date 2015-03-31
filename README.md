@@ -4,7 +4,7 @@ Light weight database abstraction.
 
 ## Requirements
 
-- PHP5.4
+- PHP5.4+
 - PDO
 
 ## Install
