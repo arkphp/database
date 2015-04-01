@@ -1,10 +1,10 @@
 Introduction
 ============
 
-Ark Database is an efficient library to work with databases.
+Ark Database is an efficient PHP library to work with databases.
 
-What's inside
--------------
+What's included
+---------------
 
 - Connection manager
 - Query builder
@@ -32,14 +32,3 @@ It's recommended to install with composer:
 ::
 
     composer require ark/database
-
-Quick Start
------------
-
-.. code-block:: php
-
-    <?php
-    function () {
-
-    }
-

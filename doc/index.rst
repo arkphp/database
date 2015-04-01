@@ -1,5 +1,7 @@
+**************************
 Ark Database documentation
-========================================
+**************************
+
 
 Contents:
 
@@ -7,6 +9,8 @@ Contents:
    :maxdepth: 2
 
    intro
+   quickstart
+   connection
 
 
 Indices and tables
