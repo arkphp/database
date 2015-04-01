@@ -11,6 +11,9 @@ Contents:
    intro
    quickstart
    connection
+   querybuilder
+   model
+   modelfactory
 
 
 Indices and tables
