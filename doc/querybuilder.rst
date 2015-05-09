@@ -37,7 +37,7 @@ Insert
 .. code-block:: php
 
     <?php
-    $db->command()
+    $db->builder()
         ->insert('user', array(
             'userame' => 'test',
             'email' => 'test@example.com',
@@ -49,7 +49,7 @@ Update
 .. code-block:: php
 
     <?php
-    $db->command()
+    $db->builder()
         ->update(
             'user', 
             array(
@@ -64,7 +64,7 @@ Delete
 
 .. code-block:: php
 
-    $db->command()
+    $db->builder()
         ->delete(
             'user', 
             'username = :username',
