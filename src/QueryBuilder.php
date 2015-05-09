@@ -637,7 +637,7 @@ class QueryBuilder
      * 
      * @param string $table
      * @param array $values
-     * @return int Rows affected, false on error
+     * @return last insert id, false on error
      */
     public function insert($table, $values){
         $keys = array();
@@ -649,7 +649,12 @@ class QueryBuilder
             $placeholders[] = ':'.$k;
         }
         $sql = "INSERT INTO ".$this->db->quoteTable($table).' ('.implode(', ',$keys).') VALUES ('.implode(',', $placeholders).')';
-        return $this->setSql($sql)->execute($params);
+        $result = $this->setSql($sql)->execute($params);
+        if (!$result) {
+            return false;
+        }
+
+        return $this->db->lastInsertId();
     }
     
     /**
