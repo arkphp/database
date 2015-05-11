@@ -238,6 +238,7 @@ class Connection
             case 'mssql':
             case 'sybase':
                 $quote = '"';
+                break;
             case 'mysql':
             case 'sqlite':
             case 'sqlite2':
