@@ -26,6 +26,23 @@ In addition to ``queryAll`` to fetch all rows, you can use:
 - ``queryValue`` to get the first column of first row (the value)
 - ``queryColumn`` to get the first column of all rows
 
+Parameter Binding
+-----------------
+
+Both named placeholder and question mark placeholder are supported:
+
+.. code-block:: php
+
+    <?php
+    $db->builder()
+        ->where('username = ? and password = ?', [$name, $password]);
+
+    $db->builder()
+        ->where('username = :name and password = :password', [
+            ':name' => $name,
+            ':password' => $password
+        ]);
+
 Condition
 ---------
 
