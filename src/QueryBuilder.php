@@ -15,6 +15,7 @@ class QueryBuilder
     protected $db;
     protected $statement;
     protected $params = array();
+    protected $positionParams = array();
     protected $query = array();
     protected $sql;
     
@@ -51,6 +52,7 @@ class QueryBuilder
     public function reset(){
         $this->statement = null;
         $this->params = array();
+        $this->positionParams = array();
         $this->query = array();
         $this->sql = null;
         
@@ -116,7 +118,11 @@ class QueryBuilder
      */
     public function mergeParams($params){
         foreach($params as $k => $v){
-            $this->params[$k] = $v;
+            if (is_int($k)) {
+                $this->positionParams[] = $v;
+            } else {
+                $this->params[$k] = $v;
+            }
         }
 
         return $this;
@@ -541,12 +547,11 @@ class QueryBuilder
     
     /**
      * Prepare statement before query
-     * @param array $params
      */
-    protected function beginQuery($params = array()){
-        $params = array_merge($this->params, $params);
+    protected function beginQuery(){
         $this->prepare();
-        if(false === $this->statement->execute($params)){
+
+        if(false === $this->statement->execute($this->params?$this->params:$this->positionParams)){
             $info = $this->statement->errorInfo();
             throw new Exception(sprintf('Statement error #%s: %s', $info[0], $info[2]));
         }
@@ -560,7 +565,8 @@ class QueryBuilder
      * @return \PDOStatement
      */
     public function query($params = array()){
-        $this->beginQuery($params);
+        $this->mergeParams($params);
+        $this->beginQuery();
         return $this->statement;
     }
     
@@ -571,7 +577,8 @@ class QueryBuilder
      * @return array
      */
     public function queryAll($params = array()){
-        $this->beginQuery($params);
+        $this->mergeParams($params);
+        $this->beginQuery();
         $rst = $this->statement->fetchAll(\PDO::FETCH_ASSOC);
         $this->statement->closeCursor();
         return $rst;
@@ -584,7 +591,8 @@ class QueryBuilder
      * @return array
      */
     public function queryRow($params = array()){
-        $this->beginQuery($params);
+        $this->mergeParams($params);
+        $this->beginQuery();
         $rst = $this->statement->fetch(\PDO::FETCH_ASSOC);
         $this->statement->closeCursor();
         return $rst;
@@ -597,7 +605,8 @@ class QueryBuilder
      * @return array
      */
     public function queryColumn($params = array()){
-        $this->beginQuery($params);
+        $this->mergeParams($params);
+        $this->beginQuery();
         $rst = $this->statement->fetchAll(\PDO::FETCH_COLUMN);
         $this->statement->closeCursor();
         return $rst;
@@ -610,7 +619,8 @@ class QueryBuilder
      * @return string
      */
     public function queryValue($params = array()){
-        $this->beginQuery($params);
+        $this->mergeParams($params);
+        $this->beginQuery();
         $rst = $this->statement->fetchColumn();
         $this->statement->closeCursor();
         
@@ -625,7 +635,13 @@ class QueryBuilder
      */
     public function execute($params = array()){
         $this->prepare();
-        if(false === $rst = $this->statement->execute($params)){
+        $this->mergeParams($params);
+
+        foreach ($this->positionParams as $index => $value) {
+            $this->statement->bindValue($index + 1, $value);
+        }
+
+        if(false === $rst = $this->statement->execute($this->params)){
             return false;
         }
         

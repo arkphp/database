@@ -42,6 +42,26 @@ class DatabaseTest extends PHPUnit_Framework_TestCase{
         $query = $this->db->query("SELECT COUNT(*) FROM pre_contact");
         $this->assertEquals($query->fetchColumn(), 1);
     }
+
+    public function testParam() {
+        $builder = $this->db->builder();
+        for ($i = 0; $i < 3; $i++) {
+            $rst = $builder->reset()->insert('{{contact}}', array(
+                'name' => 'user' . $i,
+                'email' => 'user' . $i.'@test.com',
+            ));
+
+            $this->assertTrue($rst > 0);
+        }
+
+        // question mark style
+        $name = $builder->reset()->select('name')->from('{{contact}}')->where('name = ?', array('user0'))->queryValue();
+        $this->assertEquals($name, 'user0');
+
+        // colon style
+        $name = $builder->reset()->select('name')->from('{{contact}}')->where('name = :name', array(':name' => 'user2'))->queryValue();
+        $this->assertEquals($name, 'user2');
+    }
     
     public function testBuilder(){
         $cmd = $this->db->builder();
