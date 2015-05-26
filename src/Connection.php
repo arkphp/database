@@ -12,7 +12,11 @@ namespace Ark\Database;
  */
 class Connection
 {
-    protected $current;
+    /**
+     * Current connection, null means select automatically, default means the default connection
+     * @var string
+     */
+    protected $current = null;
     protected $connections = [];
     protected $configs = [];
 
@@ -24,10 +28,17 @@ class Connection
      * @param array  $options
      */
     public function __construct($dsn = null, $username = null, $password = null, $options = array()){
-        $this->current = 'default';
-        $this->addConnection($this->current, $dsn, $username, $password, $options);
+        $this->addConnection('default', $dsn, $username, $password, $options);
     }
     
+    /**
+     * Is connection manager in auto slave mode: it has `auto_slave` config, and connection is in automatic mode
+     * @return boolean
+     */
+    public function isAutoSlave() {
+        return (!empty($this->configs['default']['options']['auto_slave'])) && isset($this->configs['slave']) && ($this->current === null);
+    }
+
     /**
      * Get connection config by name
      * @param  string $name Connection name
@@ -35,7 +46,7 @@ class Connection
      */
     public function getConfig($name = null){
         if(null === $name){
-            $name = $this->current;
+            $name = $this->current?:'default';
         }
         return $this->configs[$name];
     }
@@ -47,14 +58,14 @@ class Connection
      */
     public function getPDO($name = null){
         if(null === $name){
-            $name = $this->current;
+            $name = $this->current?:'default';
         }
         if(!isset($this->connections[$name])){
             $config = $this->configs[$name];
             $this->connections[$name] = new \PDO($config['dsn'], $config['username'], $config['password'], $config['options']);
         }
         
-        return $this->connections[$this->current];
+        return $this->connections[$name];
     }
     
     /**
@@ -96,7 +107,7 @@ class Connection
      * @param string $name
      * @return \Ark\Database\Connection
      */
-    public function switchConnection($name = 'default'){
+    public function switchConnection($name = null){
         $this->current = $name;
         
         return $this;
@@ -280,7 +291,7 @@ class Connection
     }
 
     public function getPrefix(){
-        return $this->configs[$this->current]['prefix'];
+        return $this->configs[$this->current?:'default']['prefix'];
     }
     
     public function fixPrefix($sql){

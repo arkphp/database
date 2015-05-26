@@ -549,7 +549,16 @@ class QueryBuilder
      * Prepare statement before query
      */
     protected function beginQuery(){
+        $autoSlave = $this->db->isAutoSlave();
+        if ($autoSlave) {
+            $this->db->switchConnection('slave');
+        }
+
         $this->prepare();
+
+        if ($autoSlave) {
+            $this->db->switchConnection();
+        }
 
         if(false === $this->statement->execute($this->params?$this->params:$this->positionParams)){
             $info = $this->statement->errorInfo();

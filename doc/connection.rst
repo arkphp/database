@@ -44,6 +44,7 @@ Database Options
 The connection can be customized with the ``$options`` param. Commonly used options are listed below:
 
 - ``prefix``: Table prefix, use {{table}} as table name, prefix will be prepended automatically.
+- ``auto_slave``: Use slave connections when perform read only operations. (Note that it only works for query builder and model, not the connection it self)
 - ``PDO::ATTR_ERRMODE`` Error reporting. Possible values:
 
     - ``PDO::ERRMODE_SILENT``: Just set error codes.
@@ -79,3 +80,40 @@ Additionaly, it provide two important shortcut methods for you to work with Quer
     <?php
     $builder = $db->builder();
     $factory = $db->factory('@user');
+
+Multiple Connections
+====================
+
+You can add configurations for more than one connection, and switch between them.
+
+.. code-block:: php
+
+    <?php
+    $db = new Connection($dsn, $username, $password, $options);
+    $db->addConnection('connection2', $dsn, $username, $password, $options);
+    $db->addConnection('connection3', $dsn, $username, $password, $options);
+
+    $db->switchConnection('connection2');
+    $db->switchConnection('connection3');
+    $db->switchConnection('default');
+
+A useful usecase is "auto slave", you can setup replication for your database, and then use the `auto_slave` option
+to improve performance.
+
+.. code-block:: php
+
+    <?php
+    $db = new Connection($dsn, $username, $password, [
+        'auto_slave' => true
+    ]);
+    $db->addConnection('slave', $dsnSlave, $username, $password);
+
+    // insert into master(default connection)
+    $db->builder()
+        ->insert('user', $userdata);
+
+    // query is performed at slave database automatically
+    $db->builder()
+        ->select('name')
+        ->from('user')
+        ->queryValue();
