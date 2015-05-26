@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Ark\Database\Connection</title>
+
+	<link rel="stylesheet" href="resources/style.css?e99947befd7bf673c6b43ff75e9e0f170c88a60e">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-Ark.html">
+						Ark<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-Ark.Database.html">
+						Database					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-Ark.Database.Connection.html">Connection</a></li>
+				<li><a href="class-Ark.Database.Model.html">Model</a></li>
+				<li><a href="class-Ark.Database.ModelFactory.html">ModelFactory</a></li>
+				<li><a href="class-Ark.Database.QueryBuilder.html">QueryBuilder</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Ark.Database.Exception.html">Exception</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Ark.Database.html" title="Summary of Ark\Database"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Connection</h1>
+
+
+	<div class="description">
+	<p>Database connection management</p>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Ark.html">Ark</a>\<a href="namespace-Ark.Database.html">Database</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-Ark.Database.Connection.html#10-300" title="Go to source code">Connection.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#23-32" title="Go to source code">__construct</a>( <span>string <var>$dsn</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$username</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$password</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			<p>Constructor</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dsn</var></dt>
+					<dd>Database DSN</dd>
+					<dt><var>$username</var></dt>
+					<dd></dd>
+					<dt><var>$password</var></dt>
+					<dd></dd>
+					<dt><var>$options</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isAutoSlave" id="_isAutoSlave">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isAutoSlave">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#34-40" title="Go to source code">isAutoSlave</a>( )</code>
+
+		<div class="description short">
+			<p>Is connection manager in auto slave mode: it has <code>auto_slave</code> config, and connection is in automatic mode</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Is connection manager in auto slave mode: it has <code>auto_slave</code> config, and connection is in automatic mode</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getConfig" id="_getConfig">
+
+		<td class="attributes"><code>
+			 public 
+
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getConfig">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#42-52" title="Go to source code">getConfig</a>( <span>string <var>$name</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Get connection config by name</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get connection config by name</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd>Connection name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getPDO" id="_getPDO">
+
+		<td class="attributes"><code>
+			 public 
+
+			PDO
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getPDO">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#54-69" title="Go to source code">getPDO</a>( <span>string <var>$name</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Get PDO instance</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get PDO instance</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd>Connection name</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					PDO
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addConnection" id="_addConnection">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Ark.Database.Connection.html">Ark\Database\Connection</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addConnection">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#71-103" title="Go to source code">addConnection</a>( <span>string <var>$name</var></span>, <span>string <var>$dsn</var></span>, <span>string <var>$username</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$password</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$options</var> = []</span> )</code>
+
+		<div class="description short">
+			<p>Add a new connection configuration</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Add a new connection configuration</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd></dd>
+					<dt><var>$dsn</var></dt>
+					<dd></dd>
+					<dt><var>$username</var></dt>
+					<dd></dd>
+					<dt><var>$password</var></dt>
+					<dd></dd>
+					<dt><var>$options</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Ark.Database.Connection.html">Ark\Database\Connection</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="switchConnection" id="_switchConnection">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Ark.Database.Connection.html">Ark\Database\Connection</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_switchConnection">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#105-114" title="Go to source code">switchConnection</a>( <span>string <var>$name</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			<p>Switch connection</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Switch connection</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Ark.Database.Connection.html">Ark\Database\Connection</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="factory" id="_factory">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Ark.Database.ModelFactory.html">Ark\Database\ModelFactory</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_factory">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#116-124" title="Go to source code">factory</a>( <span>string <var>$model</var></span> )</code>
+
+		<div class="description short">
+			<p>Create a model factory</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Create a model factory</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$model</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Ark.Database.ModelFactory.html">Ark\Database\ModelFactory</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="builder" id="_builder">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Ark.Database.QueryBuilder.html">Ark\Database\QueryBuilder</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_builder">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#126-133" title="Go to source code">builder</a>( )</code>
+
+		<div class="description short">
+			<p>Create query builder</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Create query builder</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><a href="class-Ark.Database.QueryBuilder.html">Ark\Database\QueryBuilder</a></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getAttribute" id="_getAttribute">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getAttribute">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#135-140" title="Go to source code">getAttribute</a>( <span> <var>$attribute</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.getattribute.php">http://www.php.net/manual/en/pdo.getattribute.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setAttribute" id="_setAttribute">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setAttribute">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#142-147" title="Go to source code">setAttribute</a>( <span> <var>$attribute</var></span>, <span> <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.setattribute.php">http://www.php.net/manual/en/pdo.setattribute.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prepare" id="_prepare">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_prepare">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#149-154" title="Go to source code">prepare</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.prepare.php">http://www.php.net/manual/en/pdo.prepare.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="query" id="_query">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_query">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#156-161" title="Go to source code">query</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.query.php">http://www.php.net/manual/en/pdo.query.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="exec" id="_exec">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_exec">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#163-168" title="Go to source code">exec</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.exec.php">http://www.php.net/manual/en/pdo.exec.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="beginTransaction" id="_beginTransaction">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_beginTransaction">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#170-175" title="Go to source code">beginTransaction</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.begintransaction.php">http://www.php.net/manual/en/pdo.begintransaction.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rollBack" id="_rollBack">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rollBack">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#177-182" title="Go to source code">rollBack</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.rollback.php">http://www.php.net/manual/en/pdo.rollback.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="commit" id="_commit">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_commit">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#184-189" title="Go to source code">commit</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.commit.php">http://www.php.net/manual/en/pdo.commit.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="inTransaction" id="_inTransaction">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_inTransaction">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#191-196" title="Go to source code">inTransaction</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.intransaction.php">http://www.php.net/manual/en/pdo.intransaction.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="lastInsertId" id="_lastInsertId">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_lastInsertId">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#198-203" title="Go to source code">lastInsertId</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.lastinsertid.php">http://www.php.net/manual/en/pdo.lastinsertid.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="quote" id="_quote">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_quote">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#205-210" title="Go to source code">quote</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://www.php.net/manual/en/pdo.quote.php">http://www.php.net/manual/en/pdo.quote.php</a><br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="errorCode" id="_errorCode">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_errorCode">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#212-214" title="Go to source code">errorCode</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="errorInfo" id="_errorInfo">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_errorInfo">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#216-218" title="Go to source code">errorInfo</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="quoteTable" id="_quoteTable">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_quoteTable">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#220-227" title="Go to source code">quoteTable</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Quote table name</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Quote table name</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="quoteColumn" id="_quoteColumn">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_quoteColumn">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#229-236" title="Go to source code">quoteColumn</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Quote column name</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Quote column name</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="quoteIdentifier" id="_quoteIdentifier">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_quoteIdentifier">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#238-268" title="Go to source code">quoteIdentifier</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			<p>Quote table or column</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Quote table or column</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="buildLimitOffset" id="_buildLimitOffset">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_buildLimitOffset">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#270-291" title="Go to source code">buildLimitOffset</a>( <span> <var>$sql</var></span>, <span> <var>$limit</var></span>, <span> <var>$offset</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getPrefix" id="_getPrefix">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getPrefix">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#293-295" title="Go to source code">getPrefix</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fixPrefix" id="_fixPrefix">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_fixPrefix">#</a>
+		<code><a href="source-class-Ark.Database.Connection.html#297-299" title="Go to source code">fixPrefix</a>( <span> <var>$sql</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="current" id="$current">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Ark.Database.Connection.html#15-19" title="Go to source code"><var>$current</var></a>
+
+			<div class="description short">
+				<p>Current connection, null means select automatically, default means the default connection</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Current connection, null means select automatically, default means the default connection</p>
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$current" class="anchor">#</a>
+				<code><span class="php-keyword1">null</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="connections" id="$connections">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Ark.Database.Connection.html#20" title="Go to source code"><var>$connections</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$connections" class="anchor">#</a>
+				<code>[]</code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="configs" id="$configs">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Ark.Database.Connection.html#21" title="Go to source code"><var>$configs</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$configs" class="anchor">#</a>
+				<code>[]</code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
