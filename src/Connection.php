@@ -67,6 +67,16 @@ class Connection
         
         return $this->connections[$name];
     }
+
+    /**
+     * Reset connections
+     * @return \Ark\Database\Connection
+     */
+    public function reset() {
+        $this->connections = [];
+
+        return $this;
+    }
     
     /**
      * Add a new connection configuration
