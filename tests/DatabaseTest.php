@@ -166,6 +166,24 @@ class DatabaseTest extends PHPUnit_Framework_TestCase{
         $rst = $model->delete();
         $this->assertEquals($rst, 1);
     }
+
+    /**
+     * @expectedException \Ark\Database\Exception
+     */
+    public function testDangerousUpdate() {
+        $this->db->builder()
+            ->update('{{contact}}', [
+                'name' => 'test',
+            ], '');
+    }
+
+    /**
+     * @expectedException \Ark\Database\Exception
+     */
+    public function testDangerousDelete() {
+        $this->db->builder()
+            ->delete('{{contact}}', '');
+    }
     
     public function testTransaction(){
     }

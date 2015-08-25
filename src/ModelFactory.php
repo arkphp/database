@@ -269,7 +269,7 @@ class ModelFactory
      * @param array $params
      * @return int|boolean
      */
-    public function update($values, $conditions = '', $params = array()){
+    public function update($values, $conditions, $params = array()){
         return $this->db->builder()->update($this->table, $values, $conditions, $params);
     }
     
@@ -313,7 +313,7 @@ class ModelFactory
      * @param array $params
      * @return int|boolean
      */
-    public function delete($conditions = '', $params = array()){
+    public function delete($conditions, $params = array()){
         return $this->db->builder()->delete($this->table, $conditions, $params);
     }
     

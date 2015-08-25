@@ -691,7 +691,7 @@ class QueryBuilder
      * @param array $params
      * @return int Rows affected, false on error
      */
-    public function update($table, $values, $conditions = '', $params = array()){
+    public function update($table, $values, $conditions, $params = array()){
         $updates = array();
         if (!is_array($values)) {
             $values = array($values);
@@ -707,9 +707,11 @@ class QueryBuilder
         
         $sql = "UPDATE ".$this->db->quoteTable($table).' SET '.implode(', ', $updates);
         $conditions = $this->buildConditions($conditions);
-        if('' !== $conditions){
-            $sql .= ' WHERE '.$conditions;
+        if ('' === $conditions) {
+            throw new Exception('Update condition must not be empty');
         }
+        
+        $sql .= ' WHERE '.$conditions;
         
         return $this->setSql($sql)->execute($params);
     }
@@ -723,12 +725,14 @@ class QueryBuilder
      * @param array $params
      * @return int Rows affected, false on error
      */
-    public function delete($table, $conditions = '', $params = array()){
+    public function delete($table, $conditions, $params = array()){
         $sql = 'DELETE FROM '.$this->db->quoteTable($table);
         $conditions = $this->buildConditions($conditions);
-        if('' !== $conditions){
-            $sql .= ' WHERE '.$conditions;
+        if ('' === $conditions) {
+            throw new Exception('Delete condition must not be empty');
         }
+        
+        $sql .= ' WHERE '.$conditions;
         
         return $this->setSql($sql)->execute($params);
     }
