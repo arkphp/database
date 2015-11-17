@@ -410,7 +410,7 @@ class QueryBuilder
      * @param array $params
      * @return \Ark\Database\QueryBuilder
      */
-    public function rightJoin($table, $condtions = '', $params = array()){
+    public function rightJoin($table, $conditions = '', $params = array()){
         return $this->anyJoin('RIGHT JOIN', $table, $conditions, $params);
     }
     
