@@ -700,8 +700,8 @@ class QueryBuilder
             if (is_integer($k)) {
                 $updates[] = $value;
             } else {
-                $updates[] = $this->db->quoteColumn($k).' = :'.$k;
-                $params[':'.$k] = $value;
+                $updates[] = $this->db->quoteColumn($k).' = :__'.$k;
+                $params[':__'.$k] = $value;
             }
         }
         

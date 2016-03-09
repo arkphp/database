@@ -187,4 +187,31 @@ class DatabaseTest extends PHPUnit_Framework_TestCase{
     
     public function testTransaction(){
     }
+
+    public function testUpdateParam() {
+        $id = $this->db->builder()
+            ->insert('{{contact}}', [
+                'name' => 'user1',
+                'email' => 'user1@example.com',
+                'point' => 10,
+            ]);
+
+        $affected = $this->db->builder()
+            ->update('{{contact}}', [
+                'point' => 5,
+            ], 'id = :id AND point = :point', [
+                ':id' => $id,
+                ':point' => 10,
+            ]);
+
+        $this->assertEquals(1, $affected);
+
+        $result = $this->db->builder()
+            ->select('point')
+            ->from('{{contact}}')
+            ->where('id = ?', [$id])
+            ->queryValue();
+
+        $this->assertEquals(5, $result);
+    }
 }
