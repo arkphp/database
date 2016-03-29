@@ -127,10 +127,11 @@ class Connection
      * Create a model factory
      * 
      * @param string $model
+     * @param mixed $pk
      * @return \Ark\Database\ModelFactory
      */
-    public function factory($model){
-        return new ModelFactory($this, $model);
+    public function factory($model, $pk = null){
+        return new ModelFactory($this, $model, $pk);
     }
     
     /**
