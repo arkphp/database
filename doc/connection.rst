@@ -45,6 +45,9 @@ The connection can be customized with the ``$options`` param. Commonly used opti
 
 - ``prefix``: Table prefix, use {{table}} as table name, prefix will be prepended automatically.
 - ``auto_slave``: Use slave connections when perform read only operations. (Note that it only works for query builder and model, not the connection it self)
+- ``reconnect``: Reconnect automatically in case of ``Mysql gone away``, default value is false.
+- ``reconnect_retries``: Times to retry when lose connection, default value is 3.
+- ``reconnect_delay_ms``: Milliseconds to wait before try to reconnect, default is 1000.
 - ``PDO::ATTR_ERRMODE`` Error reporting. Possible values:
 
     - ``PDO::ERRMODE_SILENT``: Just set error codes.
