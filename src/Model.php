@@ -1,7 +1,7 @@
 <?php
 /**
  * ark.database
- * @copyright 2015 Liu Dong <ddliuhb@gmail.com>
+ * @copyright 2014-2016 Liu Dong <ddliuhb@gmail.com>
  * @license MIT
  */
 
