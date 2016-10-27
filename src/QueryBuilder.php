@@ -555,7 +555,7 @@ class QueryBuilder
         }
 
         $reconnect = $this->db->getOption('reconnect');
-        $reconnectRetries = $this->db->getOption('reconnect_retries', 1);
+        $reconnectRetries = $this->db->getOption('reconnect_retries', 3);
         $reconnectDelayMS = $this->db->getOption('reconnect_delay_ms', 1000);
 
         while (true) {
@@ -683,7 +683,7 @@ class QueryBuilder
         $this->mergeParams($params);
 
         $reconnect = $this->db->getOption('reconnect');
-        $reconnectRetries = $this->db->getOption('reconnect_retries', 1);
+        $reconnectRetries = $this->db->getOption('reconnect_retries', 3);
         $reconnectDelayMS = $this->db->getOption('reconnect_delay_ms', 1000);
 
         while (true) {
