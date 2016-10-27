@@ -1,4 +1,4 @@
-# ark/database [![Build Status](https://travis-ci.org/arkphp/database.png)](https://travis-ci.org/arkphp/database) [![Documentation Status](https://readthedocs.org/projects/ark-database/badge/?version=latest)](https://readthedocs.org/projects/ark-database/?badge=latest)
+# ark/database [![Travis](https://img.shields.io/travis/arkphp/database.svg)](https://travis-ci.org/arkphp/database) [![Documentation Status](https://readthedocs.org/projects/ark-database/badge/?version=latest)](https://readthedocs.org/projects/ark-database/?badge=latest) [![Packagist](https://img.shields.io/packagist/v/ark/database.svg)](https://packagist.org/packages/ark/database)
 
 Light weight database abstraction.
 
