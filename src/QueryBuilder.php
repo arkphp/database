@@ -554,15 +554,52 @@ class QueryBuilder
             $this->db->switchConnection('slave');
         }
 
-        $this->prepare();
+        $reconnect = $this->db->getOption('reconnect');
+        $reconnectRetries = $this->db->getOption('reconnect_retries', 1);
+        $reconnectDelayMS = $this->db->getOption('reconnect_delay_ms', 1000);
+
+        while (true) {
+            $e = null;
+            $errorCode = null;
+            $errorInfo = null;
+            $result = null;
+
+            $isReconnectError = false;
+            try {
+                $this->prepare();
+                $result = $this->statement->execute($this->params?$this->params:$this->positionParams);
+            } catch (\Exception $e) {
+            }
+
+            if ($result === false || !$e) {
+                $errorCode = $this->statement->errorCode();
+                $errorInfo = $this->statement->errorInfo();
+            }
+
+            $isReconnectError = Util::checkReconnectError($errorCode, $errorInfo, $e);
+
+            // reconnect
+            if ($reconnect && $isReconnectError && $reconnectRetries > 0) {
+                $reconnectRetries--;
+                $this->statement = null;
+                $this->db->close();
+                $reconnectDelayMS && usleep($reconnectDelayMS * 1000);
+                continue;
+            }
+
+            break;
+        }
 
         if ($autoSlave) {
             $this->db->switchConnection();
         }
 
-        if(false === $this->statement->execute($this->params?$this->params:$this->positionParams)){
-            $info = $this->statement->errorInfo();
-            throw new Exception(sprintf('Statement error #%s: %s', $info[0], $info[2]));
+        if ($e) {
+            throw $e;
+        }
+        
+        if ($result === false) {
+            throw new Exception(sprintf('Statement error #%s: %s', $errorInfo[0], $errorInfo[2]));
         }
     }
     
@@ -643,14 +680,53 @@ class QueryBuilder
      * @return  int|boolean
      */
     public function execute($params = array()){
-        $this->prepare();
         $this->mergeParams($params);
 
-        foreach ($this->positionParams as $index => $value) {
-            $this->statement->bindValue($index + 1, $value);
+        $reconnect = $this->db->getOption('reconnect');
+        $reconnectRetries = $this->db->getOption('reconnect_retries', 1);
+        $reconnectDelayMS = $this->db->getOption('reconnect_delay_ms', 1000);
+
+        while (true) {
+            $e = null;
+            $errorCode = null;
+            $errorInfo = null;
+            $result = null;
+
+            $isReconnectError = false;
+            try {
+                $this->prepare();
+                foreach ($this->positionParams as $index => $value) {
+                    $this->statement->bindValue($index + 1, $value);
+                }
+
+                $result = $this->statement->execute($this->params);
+            } catch (\Exception $e) {
+            }
+
+            if ($result === false || !$e) {
+                $errorCode = $this->statement->errorCode();
+                $errorInfo = $this->statement->errorInfo();
+            }
+
+            $isReconnectError = Util::checkReconnectError($errorCode, $errorInfo, $e);
+
+            // reconnect
+            if ($reconnect && $isReconnectError && $reconnectRetries > 0) {
+                $reconnectRetries--;
+                $this->statement = null;
+                $this->db->close();
+                $reconnectDelayMS && usleep($reconnectDelayMS * 1000);
+                continue;
+            }
+
+            break;
         }
 
-        if(false === $rst = $this->statement->execute($this->params)){
+        if ($e) {
+            throw $e;
+        }
+        
+        if ($result === false) {
             return false;
         }
         

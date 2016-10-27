@@ -40,15 +40,37 @@ class Connection
     }
 
     /**
-     * Get connection config by name
-     * @param  string $name Connection name
-     * @return array
+     * Get current connection config by key
+     * @param  string $key Config key
+     * @param mixed $default
+     * @return mixed
      */
-    public function getConfig($name = null){
-        if(null === $name){
-            $name = $this->current?:'default';
+    public function getConfig($key = null, $default = null){
+        $name = $this->current?:'default';
+
+        $configs = $this->configs[$name];
+        if ($key === null) {
+            return $configs;
         }
-        return $this->configs[$name];
+
+        return isset($configs[$key])?$configs[$key]:$default;
+    }
+
+    /**
+     * Get current connection option by key
+     * @param  string $key
+     * @param  mixed $default
+     * @return mixed
+     */
+    public function getOption($key = null, $default = null) {
+        $name = $this->current?:'default';
+
+        $options = isset($this->configs[$name]['options'])?$this->configs[$name]['options']:[];
+        if ($key === null) {
+            return $options;
+        }
+
+        return isset($options[$key])?$options[$key]:$default;
     }
     
     /**
@@ -142,92 +164,96 @@ class Connection
     public function builder(){
         return new QueryBuilder($this);
     }
-    
+
     /**
-     * @link http://www.php.net/manual/en/pdo.getattribute.php
+     * Call PDO methods
+     *
+     * @param  string $name
+     *  - getAttribute: http://www.php.net/manual/en/pdo.getattribute.php
+     *  - setAttribute: http://www.php.net/manual/en/pdo.setattribute.php
+     *  - prepare: http://www.php.net/manual/en/pdo.prepare.php
+     *  - query: http://www.php.net/manual/en/pdo.query.php
+     *  - exec: http://www.php.net/manual/en/pdo.exec.php
+     *  - beginTransaction: http://www.php.net/manual/en/pdo.begintransaction.php
+     *  - rollBack: http://www.php.net/manual/en/pdo.rollback.php
+     *  - commit: http://www.php.net/manual/en/pdo.commit.php
+     *  - inTransaction: http://www.php.net/manual/en/pdo.intransaction.php
+     *  - lastInsertId: http://www.php.net/manual/en/pdo.lastinsertid.php
+     *  - quote: http://www.php.net/manual/en/pdo.quote.php
+     *  - errorCode: http://php.net/manual/en/pdo.errorcode.php
+     *  - errorInfo: http://php.net/manual/en/pdo.errorinfo.php
+     *  
+     * @param  array $arguments
+     * @return mixed
      */
-    public function getAttribute($attribute){
-        return $this->getPDO()->getAttribute($attribute);
+    public function __call($name, $arguments) {
+        return call_user_func_array(array($this->getPDO(), $name), $arguments);
+        
+        // Reconnection does not apply on \Ark\Database\Connection for now, it only works on query builder.
+        // static $noReconnectMethods = ['errorCode', 'errorInfo'];
+
+        // $reconnect = $this->getOption('reconnect');
+        // $reconnectRetries = $this->getOption('reconnect_retries', 1);
+        // $reconnectDelayMS = $this->getOption('reconnect_delay_ms', 1000);
+
+        // if (!$reconnect || $reconnectRetries <= 0 || in_array($name, $noReconnectMethods)) {
+        //     return call_user_func_array(array($this->getPDO(), $name), $arguments);
+        // }
+
+        // while (true) {
+        //     $e = null;
+        //     $errorCode = null;
+        //     $errorInfo = null;
+        //     $result = null;
+
+        //     $isReconnectError = false;
+        //     try {
+        //         $result = call_user_func_array(array($this->getPDO(), $name), $arguments);
+        //     } catch (\Exception $e) {
+        //     }
+
+        //     if (!$e) {
+        //         $errorCode = $this->getPDO()->errorCode();
+        //         $errorInfo = $this->getPDO()->errorInfo();
+        //     }
+
+        //     $isReconnectError = Util::checkReconnectError($errorCode, $errorInfo, $e);
+
+        //     // reconnect
+        //     if ($isReconnectError && $reconnectRetries > 0) {
+        //         $reconnectRetries--;
+        //         $this->close();
+        //         $reconnectDelayMS && usleep($reconnectDelayMS * 1000);
+        //         continue;
+        //     }
+
+        //     if ($e) {
+        //         throw $e;
+        //     }
+
+        //     return $result;
+        // }
     }
-    
+
     /**
-     * @link http://www.php.net/manual/en/pdo.setattribute.php
+     * Close connection(might not work!!!)
+     * 
+     * @param  mixed $name Connection name
      */
-    public function setAttribute($attribute, $value){
-        return $this->getPDO()->setAttribute($attribute, $value);
+    public function close($name = null) {
+        if(null === $name){
+            $name = $this->current?:'default';
+        }
+        
+        if(isset($this->connections[$name])) {
+            unset($this->connections[$name]);
+        }
     }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.prepare.php
-     */
-    public function prepare(){
-        return call_user_func_array(array($this->getPDO(), 'prepare'), func_get_args());
+
+    public function beginReconnect() {
+        $this->close();
     }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.query.php
-     */
-    public function query(){
-        return call_user_func_array(array($this->getPDO(), 'query'), func_get_args());
-    }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.exec.php
-     */
-    public function exec(){
-        return call_user_func_array(array($this->getPDO(), 'exec'), func_get_args());
-    }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.begintransaction.php
-     */
-    public function beginTransaction(){
-        return $this->getPDO()->beginTransaction();
-    }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.rollback.php
-     */
-    public function rollBack(){
-        return $this->getPDO()->rollBack();
-    }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.commit.php
-     */
-    public function commit(){
-        return $this->getPDO()->commit();
-    }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.intransaction.php
-     */
-    public function inTransaction(){
-        return $this->getPDO()->inTransaction();
-    }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.lastinsertid.php
-     */
-    public function lastInsertId(){
-        return call_user_func_array(array($this->getPDO(), 'lastInsertId'), func_get_args());
-    }
-    
-    /**
-     * @link http://www.php.net/manual/en/pdo.quote.php
-     */
-    public function quote(){
-        return call_user_func_array(array($this->getPDO(), 'quote'), func_get_args());
-    }
-    
-    public function errorCode(){
-        return call_user_func_array(array($this->getPDO(), 'errorCode'), func_get_args());
-    }
-    
-    public function errorInfo(){
-        return call_user_func_array(array($this->getPDO(), 'errorInfo'), func_get_args());
-    }
-    
+
     /**
      * Quote table name
      * @param string $name
