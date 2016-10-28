@@ -74,6 +74,21 @@ class Connection
     }
     
     /**
+     * Set option(some options may not work when connected.)
+     * @param string|array $key
+     * @param mixed $value
+     */
+    public function setOption($key, $value = null) {
+        $name = $this->current?:'default';
+
+        if (is_array($key)) {
+            $this->configs[$name]['options'] = array_merge($this->configs[$name]['options'], $key);
+        } else {
+            $this->configs[$name]['options'][$key] = $value;
+        }
+    }
+
+    /**
      * Get PDO instance
      * @param  string $name Connection name
      * @return \PDO

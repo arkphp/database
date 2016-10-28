@@ -46,8 +46,6 @@ class AutoReconnectTest extends PHPUnit_Framework_TestCase{
     protected function setup(){
         if (!$this->on) return;
         $this->db = new \Ark\Database\Connection('mysql:host=127.0.0.1;port=3306;dbname=arkdb;charset=utf8mb4', 'root', '123456', [
-            'reconnect' => true,
-            'reconnect_retries' => 5,
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
         ]);
     }
@@ -55,6 +53,7 @@ class AutoReconnectTest extends PHPUnit_Framework_TestCase{
     public function testReconnect() {
         if (!$this->on) return;
 
+        $this->db->setOption('reconnect', true);
         $count = 100;
         $sleep = 1;
         while((--$count) > 0) {
