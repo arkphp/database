@@ -16,5 +16,8 @@
         "psr-4": {
             "Ark\\Database\\": "src/"
         }
+    },
+    "require": {
+        "psr/log": "^1.0"
     }
 }
