@@ -7,10 +7,13 @@
 
 namespace Ark\Database;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+
 /**
  * Database connection management
  */
-class Connection
+class Connection implements LoggerAwareInterface
 {
     /**
      * Current connection, null means select automatically, default means the default connection
@@ -19,23 +22,26 @@ class Connection
     protected $current = null;
     protected $connections = [];
     protected $configs = [];
+    protected $logger = null;
 
     /**
      * Constructor
-     * @param string $dsn      Database DSN
-     * @param string $username 
-     * @param string $password 
-     * @param array  $options
+     * @param string $dsn Database DSN
+     * @param string $username
+     * @param string $password
+     * @param array $options
      */
-    public function __construct($dsn = null, $username = null, $password = null, $options = array()){
+    public function __construct($dsn = null, $username = null, $password = null, $options = array())
+    {
         $this->addConnection('default', $dsn, $username, $password, $options);
     }
-    
+
     /**
      * Is connection manager in auto slave mode: it has `auto_slave` config, and connection is in automatic mode
      * @return boolean
      */
-    public function isAutoSlave() {
+    public function isAutoSlave()
+    {
         return (!empty($this->configs['default']['options']['auto_slave'])) && isset($this->configs['slave']) && ($this->current === null);
     }
 
@@ -45,15 +51,16 @@ class Connection
      * @param mixed $default
      * @return mixed
      */
-    public function getConfig($key = null, $default = null){
-        $name = $this->current?:'default';
+    public function getConfig($key = null, $default = null)
+    {
+        $name = $this->current ?: 'default';
 
         $configs = $this->configs[$name];
         if ($key === null) {
             return $configs;
         }
 
-        return isset($configs[$key])?$configs[$key]:$default;
+        return isset($configs[$key]) ? $configs[$key] : $default;
     }
 
     /**
@@ -62,24 +69,26 @@ class Connection
      * @param  mixed $default
      * @return mixed
      */
-    public function getOption($key = null, $default = null) {
-        $name = $this->current?:'default';
+    public function getOption($key = null, $default = null)
+    {
+        $name = $this->current ?: 'default';
 
-        $options = isset($this->configs[$name]['options'])?$this->configs[$name]['options']:[];
+        $options = isset($this->configs[$name]['options']) ? $this->configs[$name]['options'] : [];
         if ($key === null) {
             return $options;
         }
 
-        return isset($options[$key])?$options[$key]:$default;
+        return isset($options[$key]) ? $options[$key] : $default;
     }
-    
+
     /**
      * Set option(some options may not work when connected.)
      * @param string|array $key
      * @param mixed $value
      */
-    public function setOption($key, $value = null) {
-        $name = $this->current?:'default';
+    public function setOption($key, $value = null)
+    {
+        $name = $this->current ?: 'default';
 
         if (is_array($key)) {
             $this->configs[$name]['options'] = array_merge($this->configs[$name]['options'], $key);
@@ -89,19 +98,40 @@ class Connection
     }
 
     /**
+     * psr3 logger
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * log error
+     */
+    public function logError($message, $context = [])
+    {
+        if(!$this->logger) {
+            return;
+        }
+        $this->logger->error($message, $context);
+    }
+
+    /**
      * Get PDO instance
      * @param  string $name Connection name
      * @return \PDO
      */
-    public function getPDO($name = null){
-        if(null === $name){
-            $name = $this->current?:'default';
+    public function getPDO($name = null)
+    {
+        if (null === $name) {
+            $name = $this->current ?: 'default';
         }
-        if(!isset($this->connections[$name])){
+        if (!isset($this->connections[$name])) {
             $config = $this->configs[$name];
             $this->connections[$name] = new \PDO($config['dsn'], $config['username'], $config['password'], $config['options']);
         }
-        
+
         return $this->connections[$name];
     }
 
@@ -109,15 +139,16 @@ class Connection
      * Reset connections
      * @return \Ark\Database\Connection
      */
-    public function reset() {
+    public function reset()
+    {
         $this->connections = [];
 
         return $this;
     }
-    
+
     /**
      * Add a new connection configuration
-     * 
+     *
      * @param string $name
      * @param string $dsn
      * @param string $username
@@ -125,17 +156,17 @@ class Connection
      * @param array $options
      * @return \Ark\Database\Connection
      */
-    public function addConnection($name, $dsn, $username = null, $password = null, $options = []){
+    public function addConnection($name, $dsn, $username = null, $password = null, $options = [])
+    {
         //default driver options
         static $defaultOptions = array(
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             //PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         );
-        if(isset($options['prefix'])){
+        if (isset($options['prefix'])) {
             $prefix = $options['prefix'];
             unset($options['prefix']);
-        }
-        else{
+        } else {
             $prefix = '';
         }
         $this->configs[$name] = [
@@ -143,40 +174,43 @@ class Connection
             'username' => $username,
             'password' => $password,
             'prefix' => $prefix,
-            'options' =>  $options + $defaultOptions,
+            'options' => $options + $defaultOptions,
         ];
-        
+
         return $this;
     }
-    
+
     /**
      * Switch connection
      * @param string $name
      * @return \Ark\Database\Connection
      */
-    public function switchConnection($name = null){
+    public function switchConnection($name = null)
+    {
         $this->current = $name;
-        
+
         return $this;
     }
 
     /**
      * Create a model factory
-     * 
+     *
      * @param string $model
      * @param mixed $pk
      * @return \Ark\Database\ModelFactory
      */
-    public function factory($model, $pk = null){
+    public function factory($model, $pk = null)
+    {
         return new ModelFactory($this, $model, $pk);
     }
-    
+
     /**
      * Create query builder
-     * 
+     *
      * @return \Ark\Database\QueryBuilder
      */
-    public function builder(){
+    public function builder()
+    {
         return new QueryBuilder($this);
     }
 
@@ -197,13 +231,14 @@ class Connection
      *  - quote: http://www.php.net/manual/en/pdo.quote.php
      *  - errorCode: http://php.net/manual/en/pdo.errorcode.php
      *  - errorInfo: http://php.net/manual/en/pdo.errorinfo.php
-     *  
+     *
      * @param  array $arguments
      * @return mixed
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         return call_user_func_array(array($this->getPDO(), $name), $arguments);
-        
+
         // Reconnection does not apply on \Ark\Database\Connection for now, it only works on query builder.
         // static $noReconnectMethods = ['errorCode', 'errorInfo'];
 
@@ -252,20 +287,22 @@ class Connection
 
     /**
      * Close connection(might not work!!!)
-     * 
+     *
      * @param  mixed $name Connection name
      */
-    public function close($name = null) {
-        if(null === $name){
-            $name = $this->current?:'default';
+    public function close($name = null)
+    {
+        if (null === $name) {
+            $name = $this->current ?: 'default';
         }
-        
-        if(isset($this->connections[$name])) {
+
+        if (isset($this->connections[$name])) {
             unset($this->connections[$name]);
         }
     }
 
-    public function beginReconnect() {
+    public function beginReconnect()
+    {
         $this->close();
     }
 
@@ -274,27 +311,30 @@ class Connection
      * @param string $name
      * @return string
      */
-    public function quoteTable($name){
+    public function quoteTable($name)
+    {
         return $this->quoteIdentifier($name);
     }
-    
+
     /**
      * Quote column name
      * @param string $name
      * @return string
      */
-    public function quoteColumn($name){
+    public function quoteColumn($name)
+    {
         return $this->quoteIdentifier($name);
     }
-    
+
     /**
      * Quote table or column
      * @param string $name
      * @return string
      */
-    public function quoteIdentifier($name){
+    public function quoteIdentifier($name)
+    {
         $quote = null;
-        switch($this->getAttribute(\PDO::ATTR_DRIVER_NAME)){
+        switch ($this->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
             case 'pgsql':
             case 'sqlsrv':
             case 'dblib':
@@ -308,19 +348,20 @@ class Connection
             default:
                 $quote = '`';
         }
-        
+
         $parts = explode('.', $name);
-        foreach($parts as $k => $part){
-            if($part !== '*'){
-                $parts[$k] = $quote.$part.$quote;
+        foreach ($parts as $k => $part) {
+            if ($part !== '*') {
+                $parts[$k] = $quote . $part . $quote;
             }
         }
-        
+
         return implode('.', $parts);
     }
-    
-    public function buildLimitOffset($sql, $limit, $offset = 0){
-        switch($this->getAttribute(\PDO::ATTR_DRIVER_NAME)){
+
+    public function buildLimitOffset($sql, $limit, $offset = 0)
+    {
+        switch ($this->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
             case 'sqlsrv':
             case 'dblib':
             case 'mssql':
@@ -331,22 +372,24 @@ class Connection
             case 'sqlite':
             case 'sqlite2':
             default:
-                if($limit > 0){
-                    $sql .= "\n LIMIT ".$limit;
+                if ($limit > 0) {
+                    $sql .= "\n LIMIT " . $limit;
                 }
-                if($offset > 0){
-                    $sql .= " OFFSET ".$offset;
+                if ($offset > 0) {
+                    $sql .= " OFFSET " . $offset;
                 }
-                
+
                 return $sql;
         }
     }
 
-    public function getPrefix(){
-        return $this->configs[$this->current?:'default']['prefix'];
+    public function getPrefix()
+    {
+        return $this->configs[$this->current ?: 'default']['prefix'];
     }
-    
-    public function fixPrefix($sql){
-        
+
+    public function fixPrefix($sql)
+    {
+
     }
 }
