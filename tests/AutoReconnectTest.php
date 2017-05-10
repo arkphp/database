@@ -38,6 +38,12 @@ Tips:
 Inspect: docker exec -it arkdb-mysql mysql --user=root --password=123456
 */
 
+// backward compatibility
+if (!class_exists('\PHPUnit\Framework\TestCase') &&
+    class_exists('\PHPUnit_Framework_TestCase')) {
+    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
+}
+
 class AutoReconnectTest extends PHPUnit_Framework_TestCase{
     protected $db;
     // Local test only
