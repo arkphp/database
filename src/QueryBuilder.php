@@ -724,7 +724,7 @@ class QueryBuilder
                     $this->statement->bindValue($index + 1, $value);
                 }
 
-                $result = $this->statement->execute($this->params);
+                $result = $this->statement->execute($this->params?:null);
             } catch (\Exception $e) {
             }
 
